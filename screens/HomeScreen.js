@@ -6,8 +6,13 @@ import {
   TouchableOpacity
 } from 'react-native'
 import { connect } from 'react-redux'
-import { getAllStoresRequest } from '../actions/StoreActions'
+import { getAllStoresRequest, searchStoreRequest } from '../actions/StoreActions'
+import { Icon } from 'expo'
+
 import styles from './styles/HomeScreenStyle'
+import { Platform } from 'expo-core'
+import SearchBox from '../components/SearchBox'
+import Separator from '../components/Separator'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -15,39 +20,42 @@ class HomeScreen extends React.Component {
   };
 
   state = {
-    stores: [
-      { storeId: 1, status: 'pending', tradingName: 'Vine 21' },
-      { storeId: 2, status: 'pending', tradingName: 'Vine 11233' },
-      { storeId: 3, status: 'pending' },
-      { storeId: 4, status: 'verified', tradingName: 'Vine 993' },
-      { storeId: 5, status: 'verified' },
-      { storeId: 6, status: 'pending', tradingName: 'Vine' }
-    ],
-    isFetching: true
+    isFetching: false
   }
 
   static getDerivedStateFromProps (props, state) {
     const { loading, stores } = props
     const { isFetching } = state
     if (loading !== isFetching) {
-      console.log(stores)
-      return { stores }
+      return { stores, isFetching: false }
     }
     return null
   }
 
   componentDidMount () {
     this.props.getStores()
+    this.setState({ isFetching: true })
+  }
+
+  onSearch = (keyword) => {
+    this.props.searchStore(keyword)
+    this.setState({ isFetching: true })
   }
 
   render () {
-    const { stores } = this.state
+    const { stores } = this.props
     return (
       <View style={styles.container}>
+        <SearchBox
+          value={this.state.keyword}
+          onChange={text => this.setState({ keyword: text })}
+          onSearch={this.onSearch} />
         <FlatList
+          refreshing={this.state.isFetching}
           data={stores}
           renderItem={this.renderItem}
-          keyExtractor={(item) => `store_${item.storeId}`}
+          ItemSeparatorComponent={() => (<Separator />)}
+          keyExtractor={(item) => `store_${item.storeId || item._id}`}
         />
       </View>
     )
@@ -55,17 +63,26 @@ class HomeScreen extends React.Component {
 
   renderItem = ({ item, index }) => {
     return (
-      <View>
-        <TouchableOpacity onPress={() => this.navigateToStoreDetail(item)}>
-          <Text>{item.tradingName || 'no name'}</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={() => this.navigateToStoreDetail(item)}>
+        <View style={styles.storeItem}>
+          <Text>{item.tradingName || ''}</Text>
+          {
+            item.status === 'verified' &&
+            <Icon.Ionicons
+              name={Platform.OS === 'ios' ? 'ios-ribbon' : 'md-ribbon'}
+              size={24}
+              style={{ marginBottom: 0 }}
+              color={'#d35400'}
+            />
+          }
 
-      </View>
+        </View>
+      </TouchableOpacity>
     )
   }
 
   navigateToStoreDetail = (item) => {
-    // navigation function
+    this.props.navigation.navigate('StoreDetail', { storeId: item.storeId || item._id })
   }
 }
 const mapStateToProps = state => ({
@@ -74,6 +91,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getStores: () => dispatch(getAllStoresRequest())
+  getStores: () => dispatch(getAllStoresRequest()),
+  searchStore: (keyword) => dispatch(searchStoreRequest(keyword))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

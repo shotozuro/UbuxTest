@@ -1,4 +1,4 @@
-import { GET_ALL_STORES } from '../actions/ActionTypes'
+import { GET_ALL_STORES, SEARCH_STORE } from '../actions/ActionTypes'
 
 const INITIAL_STATE = {
   stores: [],
@@ -20,6 +20,24 @@ export default (state = INITIAL_STATE, action) => {
       }
 
     case GET_ALL_STORES.FAILURE:
+      return {
+        ...state,
+        loading: false
+      }
+
+    case SEARCH_STORE.REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case SEARCH_STORE.SUCCESS:
+      return {
+        ...state,
+        stores: action.payload,
+        loading: false
+      }
+
+    case SEARCH_STORE.FAILURE:
       return {
         ...state,
         loading: false

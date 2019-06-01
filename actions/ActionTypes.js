@@ -7,3 +7,4 @@ const createActionTypes = type => {
 }
 
 export const GET_ALL_STORES = createActionTypes('get_all_stores')
+export const SEARCH_STORE = createActionTypes('search_store')

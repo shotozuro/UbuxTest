@@ -1,12 +1,13 @@
 import API from '../services/api'
 import { takeLatest, all } from 'redux-saga/effects'
-import { getStores } from '../sagas/StoreSagas'
-import { GET_ALL_STORES } from '../actions/ActionTypes'
+import { getStores, searchStore } from '../sagas/StoreSagas'
+import { GET_ALL_STORES, SEARCH_STORE } from '../actions/ActionTypes'
 const api = API.create()
 
 function * rootSaga () {
   yield all([
-    takeLatest(GET_ALL_STORES.REQUEST, getStores, api)
+    takeLatest(GET_ALL_STORES.REQUEST, getStores, api),
+    takeLatest(SEARCH_STORE.REQUEST, searchStore, api)
   ])
 }
 
