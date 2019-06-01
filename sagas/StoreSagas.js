@@ -1,5 +1,5 @@
 import { put, call } from 'redux-saga/effects'
-import { GET_ALL_STORES, SEARCH_STORE } from '../actions/ActionTypes'
+import { GET_ALL_STORES, SEARCH_STORE, GET_STORE_DETAIL } from '../actions/ActionTypes'
 // import console = require('console');
 
 export function * getStores (api, action) {
@@ -14,9 +14,17 @@ export function * getStores (api, action) {
 export function * searchStore (api, action) {
   try {
     const response = yield call(api.searchStore, action.keyword)
-    console.log(JSON.stringify(response))
     yield put({ type: SEARCH_STORE.SUCCESS, payload: response.data.stores })
   } catch (error) {
     yield put({ type: SEARCH_STORE.FAILURE, error })
+  }
+}
+
+export function * getStore (api, action) {
+  try {
+    const response = yield call(api.getStore, action.storeId)
+    yield put({ type: GET_STORE_DETAIL.SUCCESS, payload: response.data.store })
+  } catch (error) {
+    yield put({ type: GET_STORE_DETAIL.FAILURE, error })
   }
 }

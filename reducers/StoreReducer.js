@@ -1,8 +1,9 @@
-import { GET_ALL_STORES, SEARCH_STORE } from '../actions/ActionTypes'
+import { GET_ALL_STORES, SEARCH_STORE, GET_STORE_DETAIL } from '../actions/ActionTypes'
 
 const INITIAL_STATE = {
   stores: [],
-  loading: false
+  loading: false,
+  store: null
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -42,6 +43,25 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: false
       }
+
+    case GET_STORE_DETAIL.REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case GET_STORE_DETAIL.SUCCESS:
+      return {
+        ...state,
+        store: action.payload,
+        loading: false
+      }
+
+    case GET_STORE_DETAIL.FAILURE:
+      return {
+        ...state,
+        loading: false
+      }
+
     default:
       return state
   }
