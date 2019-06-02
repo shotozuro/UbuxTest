@@ -3,10 +3,13 @@ import { View, Text, FlatList, Image, ActivityIndicator, TouchableOpacity } from
 import { connect } from 'react-redux'
 import { getStoreDetailRequest } from '../actions/StoreActions'
 import { getProductsRequest } from '../actions/ProductActions'
+import { addToCart } from '../actions/CartActions'
 import Avatar from '../components/Avatar'
 import BaseIcon from '../components/BaseIcon'
 import Separator from '../components/Separator'
 import styles from './styles/StoreDetailStyle'
+import Colors from '../constants/Colors'
+import { Platform } from 'expo-core'
 
 class StoreDetailScreen extends React.Component {
   state = {
@@ -97,6 +100,7 @@ class StoreDetailScreen extends React.Component {
           </Text>
         </View>
         <TouchableOpacity
+          onPress={() => this.props.addToCart(item)}
           style={{
             marginRight: 16,
             height: 24,
@@ -104,9 +108,9 @@ class StoreDetailScreen extends React.Component {
             borderRadius: 12,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'green'
+            backgroundColor: Colors.primaryColor
           }}>
-          <BaseIcon name={'ios-add'} size={24} color={'#fff'} />
+          <BaseIcon name={Platform.OS === 'ios' ? 'ios-add' : 'md-ios'} size={24} color={'#fff'} />
         </TouchableOpacity>
       </View>
     )
@@ -122,7 +126,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getStoreDetail: (storeId) => dispatch(getStoreDetailRequest(storeId)),
-  getProducts: (storeId) => dispatch(getProductsRequest(storeId))
+  getProducts: (storeId) => dispatch(getProductsRequest(storeId)),
+  addToCart: (product) => dispatch(addToCart(product))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StoreDetailScreen)
