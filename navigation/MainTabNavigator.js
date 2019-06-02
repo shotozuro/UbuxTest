@@ -7,6 +7,7 @@ import StoreDetailScreen from '../screens/StoreDetailScreen'
 import CartScreen from '../screens/CartScreen'
 
 import BaseIcon from '../components/BaseIcon'
+import Colors from '../constants/Colors'
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -18,7 +19,7 @@ const HomeStack = createStackNavigator({
       <TouchableOpacity
         style={{ padding: 10, alignItems: 'center', justifyContent: 'center' }}
         onPress={() => navigation.navigate('Cart')} >
-        <BaseIcon name={Platform.OS === 'ios' ? 'ios-cart' : 'md-cart'} size={24} color={'blue'} />
+        <BaseIcon name={Platform.OS === 'ios' ? 'ios-cart' : 'md-cart'} size={24} color={Colors.primaryColor} />
       </TouchableOpacity>)
   })
 })
