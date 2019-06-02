@@ -55,6 +55,7 @@ class HomeScreen extends React.Component {
           data={stores}
           renderItem={this.renderItem}
           ItemSeparatorComponent={() => (<Separator />)}
+          ListEmptyComponent={() => <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 20 }}><Text>{`No store available.`}</Text></View>}
           keyExtractor={(item) => `store_${item.storeId || item._id}`}
         />
       </View>

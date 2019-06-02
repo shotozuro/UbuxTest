@@ -74,6 +74,7 @@ class StoreDetailScreen extends React.Component {
         data={products}
         renderItem={this.renderItem}
         keyExtractor={(item, index) => index.toString(10)}
+        ListEmptyComponent={() => <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 20 }}><Text>{`No products available.`}</Text></View>}
         ItemSeparatorComponent={() => <Separator style={{ marginLeft: 116 }} />}
       />
     )

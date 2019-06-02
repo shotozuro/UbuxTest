@@ -12,12 +12,8 @@ class CartScreen extends React.Component {
   static navigationOptions = {
     title: 'Cart'
   }
-  state = {
-    products: []
-  }
 
   componentDidMount () {
-    // fetch selected products
     this.props.getFromCart()
   }
 
@@ -60,7 +56,6 @@ class CartScreen extends React.Component {
 
   render () {
     const { products } = this.props
-    console.log(products)
     return (
       <View style={styles.container}>
         <FlatList
@@ -68,6 +63,7 @@ class CartScreen extends React.Component {
           data={products}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index.toString(10)}
+          ListEmptyComponent={() => <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 20 }}><Text>{`You haven't selected any products yet.`}</Text></View>}
           ItemSeparatorComponent={() => <Separator style={{ marginLeft: 116 }} />}
         />
       </View>
