@@ -5,18 +5,18 @@ import Colors from '../constants/Colors'
 
 export default class Separator extends React.Component {
   render () {
-    return (<View style={{
+    return (<View style={[{
       flex: 1,
-      alignSelf: 'stretch',
-      backgroundColor: this.props.height,
+      backgroundColor: this.props.color,
       height: this.props.height
-    }} />)
+    }, this.props.style]} />)
   }
 }
 
 Separator.propTypes = {
   height: PropTypes.number,
-  color: PropTypes.string
+  color: PropTypes.string,
+  style: PropTypes.object
 }
 
 Separator.defaultProps = {

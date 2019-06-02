@@ -1,47 +1,26 @@
 import React from 'react'
-import { Platform } from 'react-native'
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
+import { Platform, TouchableOpacity } from 'react-native'
+import { createStackNavigator } from 'react-navigation'
 
-import TabBarIcon from '../components/TabBarIcon'
 import HomeScreen from '../screens/HomeScreen'
 import StoreDetailScreen from '../screens/StoreDetailScreen'
-
 import CartScreen from '../screens/CartScreen'
+
+import BaseIcon from '../components/BaseIcon'
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  StoreDetail: StoreDetailScreen
-})
-
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Stores',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  )
-}
-
-const CartStack = createStackNavigator({
+  StoreDetail: StoreDetailScreen,
   Cart: CartScreen
+}, {
+  defaultNavigationOptions: ({ navigation }) => ({
+    headerRight: (
+      <TouchableOpacity
+        style={{ padding: 10, alignItems: 'center', justifyContent: 'center' }}
+        onPress={() => navigation.navigate('Cart')} >
+        <BaseIcon name={Platform.OS === 'ios' ? 'ios-cart' : 'md-cart'} size={24} color={'blue'} />
+      </TouchableOpacity>)
+  })
 })
 
-CartStack.navigationOptions = {
-  tabBarLabel: 'Cart',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-cart' : 'md-cart'}
-    />
-  )
-}
-
-export default createBottomTabNavigator({
-  HomeStack,
-  CartStack
-})
+export default HomeStack
