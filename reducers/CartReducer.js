@@ -6,9 +6,13 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'ADD_TO_CART':
+      const { cart } = state
+      const { product } = action
+      const index = cart.findIndex(cartProduct => cartProduct._id === product._id)
+
       return {
         ...state,
-        cart: [action.product, ...state.cart]
+        cart: index < 0 ? [product, ...cart] : [...cart]
       }
     case 'REMOVE_FROM_CART':
       return {

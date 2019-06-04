@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, FlatList, Image, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, Image, ActivityIndicator, TouchableOpacity, Modal } from 'react-native'
 import { connect } from 'react-redux'
 import { getStoreDetailRequest } from '../actions/StoreActions'
 import { getProductsRequest } from '../actions/ProductActions'
@@ -14,7 +14,9 @@ import { Platform } from 'expo-core'
 class StoreDetailScreen extends React.Component {
   state = {
     isFetchingProducts: false,
-    isFetchingStoreDetail: false
+    isFetchingStoreDetail: false,
+    showProduct: false,
+    selectedProduct: null
   }
 
   componentDidMount () {
@@ -41,6 +43,14 @@ class StoreDetailScreen extends React.Component {
     return null
   }
 
+  onShowProduct = (item) => {
+    this.setState({ showProduct: true, selectedProduct: item })
+  }
+
+  onCloseProduct = () => {
+    this.setState({ showProduct: false })
+  }
+
   render () {
     const { store } = this.props
     return (
@@ -55,6 +65,7 @@ class StoreDetailScreen extends React.Component {
         </View>
         <View style={{ marginLeft: 16 }}><Text>{'Products'}</Text></View>
         { this.renderProductList() }
+        { this.renderProductDetail() }
       </View>
     )
   }
@@ -82,11 +93,12 @@ class StoreDetailScreen extends React.Component {
 
   renderItem = ({ item, index }) => {
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => this.onShowProduct(item)}
         style={styles.productItemContainer}>
         <Image
           source={{ uri: item.imageUrl }}
-          style={{ height: 56, width: 100 }}
+          style={{ height: 56, width: 100, backgroundColor: Colors.gray }}
         />
         <View
           style={{
@@ -111,9 +123,36 @@ class StoreDetailScreen extends React.Component {
             justifyContent: 'center',
             backgroundColor: Colors.primaryColor
           }}>
-          <BaseIcon name={Platform.OS === 'ios' ? 'ios-add' : 'md-ios'} size={24} color={'#fff'} />
+          <BaseIcon name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'} size={24} color={'#fff'} />
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
+    )
+  }
+
+  renderProductDetail = () => {
+    const { selectedProduct: item } = this.state
+    return (this.state.showProduct || this.state.selectedProduct) && (
+      <Modal transparent animationType={'slide'} visible={this.state.showProduct}>
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          <View style={{ marginTop: 16, alignItems: 'flex-end' }}>
+            <TouchableOpacity
+              style={{ height: 24, width: 24, alignItems: 'center', justifyContent: 'center' }}
+              onPress={this.onCloseProduct}>
+              <BaseIcon name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'} size={24} />
+            </TouchableOpacity>
+          </View>
+          <Image style={{ flex: 1, width: '100%', height: '50%', backgroundColor: Colors.gray }} source={{ uri: item.imageUrl }} />
+          <View style={{ flex: 1, padding: 16 }}>
+            <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+              <Text style={{ fontSize: 20, color: Colors.primaryTextColor }}>{item.name}</Text>
+              <Text style={{ fontSize: 20, color: Colors.secondaryTextColor }} >{item.priceCash}</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text>{item.description}</Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
     )
   }
 }

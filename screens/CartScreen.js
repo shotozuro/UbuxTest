@@ -63,7 +63,12 @@ class CartScreen extends React.Component {
           data={products}
           renderItem={this.renderItem}
           keyExtractor={(item, index) => index.toString(10)}
-          ListEmptyComponent={() => <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 20 }}><Text>{`You haven't selected any products yet.`}</Text></View>}
+          ListHeaderComponent={() => (<View style={{ paddingHorizontal: 16, justifyContent: 'center', marginVertical: 10 }}>
+            <Text>{products.length > 0 ? `${products.length} ${products.length > 1 ? 'products' : 'product'} in your cart` : ''}</Text>
+          </View>)}
+          ListEmptyComponent={() => (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 20 }}>
+            <Text>{`You haven't selected any products yet.`}</Text>
+          </View>)}
           ItemSeparatorComponent={() => <Separator style={{ marginLeft: 116 }} />}
         />
       </View>

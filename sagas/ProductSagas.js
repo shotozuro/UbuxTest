@@ -1,6 +1,5 @@
 import { put, call } from 'redux-saga/effects'
 import { GET_PRODUCTS } from '../actions/ActionTypes'
-// import console = require('console');
 
 export function * getProducts (api, action) {
   try {

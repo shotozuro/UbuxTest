@@ -1,6 +1,5 @@
 import { put, call } from 'redux-saga/effects'
 import { GET_ALL_STORES, SEARCH_STORE, GET_STORE_DETAIL } from '../actions/ActionTypes'
-// import console = require('console');
 
 export function * getStores (api, action) {
   try {
