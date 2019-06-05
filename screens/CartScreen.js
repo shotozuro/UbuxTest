@@ -46,7 +46,7 @@ class CartScreen extends React.Component {
             borderRadius: 12,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: Colors.fire
+            backgroundColor: Colors.snow
           }}>
           <BaseIcon name={Platform.OS === 'ios' ? 'ios-remove' : 'md-remove'} size={24} color={'#fff'} />
         </TouchableOpacity>

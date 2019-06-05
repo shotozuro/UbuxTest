@@ -102,7 +102,7 @@ class StoreDetailScreen extends React.Component {
         />
         <View
           style={{
-            flex: 1,
+            flex: 4,
             height: 56,
             marginHorizontal: 16,
             justifyContent: 'space-around'
@@ -115,13 +115,13 @@ class StoreDetailScreen extends React.Component {
         <TouchableOpacity
           onPress={() => this.props.addToCart(item)}
           style={{
-            marginRight: 16,
-            height: 24,
-            width: 24,
+            zIndex: 100,
+            height: '100%',
+            flex: 1,
             borderRadius: 12,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: Colors.primaryColor
+            backgroundColor: Colors.snow
           }}>
           <BaseIcon name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'} size={24} color={'#fff'} />
         </TouchableOpacity>

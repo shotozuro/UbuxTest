@@ -7,12 +7,12 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { getAllStoresRequest, searchStoreRequest } from '../actions/StoreActions'
-import { Icon } from 'expo'
 
 import styles from './styles/HomeScreenStyle'
 import { Platform } from 'expo-core'
 import SearchBox from '../components/SearchBox'
 import Separator from '../components/Separator'
+import BaseIcon from '../components/BaseIcon'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -69,7 +69,7 @@ class HomeScreen extends React.Component {
           <Text>{item.tradingName || ''}</Text>
           {
             item.status === 'verified' &&
-            <Icon.Ionicons
+            <BaseIcon
               name={Platform.OS === 'ios' ? 'ios-ribbon' : 'md-ribbon'}
               size={24}
               style={{ marginBottom: 0 }}
